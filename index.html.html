@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for audio player styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background-image: linear-gradient(#3b82f6, #3b82f6);
+            background-size: 0% 100%;
+            background-repeat: no-repeat;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 0 2px 0 #555;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Animation for currently playing track */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .playing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen text-white">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+                My Music Collection
+            </h1>
+            <p class="text-gray-300 max-w-2xl mx-auto">
+                A personal collection of my favorite tracks. Click on any song to start playing.
+            </p>
+        </header>
+
+        <!-- Main Player Section -->
+        <div class="max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden mb-12">
+            <!-- Now Playing Info -->
+            <div id="nowPlaying" class="p-6 bg-gray-700 flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                    <img id="currentCover" src="https://via.placeholder.com/80" alt="Album Cover" class="w-16 h-16 rounded-md">
+                </div>
+                <div class="flex-grow">
+                    <h3 id="currentTitle" class="text-xl font-semibold">Select a song</h3>
+                    <p id="currentArtist" class="text-gray-300">-</p>
+                </div>
+                <div class="flex-shrink-0 text-blue-400">
+                    <i class="fas fa-music text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Audio Player Controls -->
+            <div class="p-6">
+                <audio id="audioPlayer" class="w-full"></audio>
+                <div class="flex items-center justify-between mb-2">
+                    <span id="currentTime" class="text-sm text-gray-400">0:00</span>
+                    <span id="duration" class="text-sm text-gray-400">0:00</span>
+                </div>
+                <input id="progressBar" type="range" value="0" class="w-full mb-6 cursor-pointer">
+                
+                <div class="flex items-center justify-center space-x-8">
+                    <button id="prevBtn" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-step-backward text-2xl"></i>
+                    </button>
+                    <button id="playBtn" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        <i class="fas fa-play text-xl"></i>
+                    </button>
+                    <button id="nextBtn" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-step-forward text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Library -->
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl font-semibold mb-6 flex items-center">
+                <i class="fas fa-list-music mr-3 text-blue-400"></i>
+                My Tracks
+            </h2>
+            
+            <div id="playlist" class="space-y-2">
+                <!-- 
+                    ADD YOUR MUSIC HERE 
+                    Copy and paste the song div below for each track you want to add
+                    Replace the data-src with your music file path
+                    Replace the cover image if you have one
+                    Update title and artist info
+                -->
+                
+                <!-- Example Song 1 -->
+                <div class="song bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center cursor-pointer transition duration-200"
+                     data-src="AXMO  le Shuuk  LePrince - I Like To Move It.mp3"
+                     data-cover="bild2.img"
+                     data-title="I like to move it"
+                     data-artist="AXMO  le Shuuk  LePrince">
+                    <div class="flex-shrink-0 mr-4">
+                        <img src="bild2.img" alt="Album Cover" class="w-12 h-12 rounded">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-medium">I like to move it</h3>
+                        <p class="text-sm text-gray-400">AXMO  le Shuuk  LePrince</p>
+                    </div>
+                    <div class="flex-shrink-0 text-gray-500">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                
+                <!-- Example Song 2 -->
+                <div class="song bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center cursor-pointer transition duration-200"
+                     data-src="Eibell - Mary On A Cross.mp3"
+                     data-cover="bild1.img"
+                     data-title="Mary On A Cross"
+                     data-artist="Eibell">
+                    <div class="flex-shrink-0 mr-4">
+                        <img src="bild1.img" alt="Album Cover" class="w-12 h-12 rounded">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-medium">Mary On A Cross</h3>
+                        <p class="text-sm text-gray-400">Eibell</p>
+                    </div>
+                    <div class="flex-shrink-0 text-gray-500">
+                        <i class="fas fa-play"></i>
+                    </div>
+					
+                </div>
+                <div class="song bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center cursor-pointer transition duration-200"
+                     data-src="meineigenerpodcast1.mp3"
+                     data-cover="bild6.img"
+                     data-title="Mein eigener Song/Podcast"
+                     data-artist="XEAROX">
+                    <div class="flex-shrink-0 mr-4">
+                        <img src="bild6.img" alt="Album Cover" class="w-12 h-12 rounded">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-medium">Mein eigener song</h3>
+                        <p class="text-sm text-gray-400">XEAROX</p>
+                    </div>
+                    <div class="flex-shrink-0 text-gray-500">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <!-- Add more songs by copying the div above and updating the data attributes -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 text-gray-500 text-sm">
+        <p>My Personal Music Collection • © <span id="year"></span></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Audio player elements
+            const audioPlayer = document.getElementById('audioPlayer');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeElement = document.getElementById('currentTime');
+            const durationElement = document.getElementById('duration');
+            const playBtn = document.getElementById('playBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentTitle = document.getElementById('currentTitle');
+            const currentArtist = document.getElementById('currentArtist');
+            const currentCover = document.getElementById('currentCover');
+            
+            // Playlist elements
+            const songs = document.querySelectorAll('.song');
+            let currentSongIndex = 0;
+            
+            // Format time from seconds to MM:SS
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            // Update progress bar and time
+            function updateProgress() {
+                progressBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                currentTimeElement.textContent = formatTime(audioPlayer.currentTime);
+                
+                if (!isNaN(audioPlayer.duration)) {
+                    durationElement.textContent = formatTime(audioPlayer.duration);
+                }
+            }
+            
+            // Set progress bar when user seeks
+            function setProgress() {
+                audioPlayer.currentTime = (progressBar.value / 100) * audioPlayer.duration;
+            }
+            
+            // Play or pause song
+            function togglePlay() {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause text-xl"></i>';
+                    
+                    // Highlight currently playing song
+                    songs.forEach(song => song.classList.remove('playing', 'bg-blue-900'));
+                    songs[currentSongIndex].classList.add('playing', 'bg-blue-900');
+                } else {
+                    audioPlayer.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play text-xl"></i>';
+                    songs[currentSongIndex].classList.remove('playing');
+                }
+            }
+            
+            // Load and play song
+            function loadSong(index) {
+                const song = songs[index];
+                currentSongIndex = index;
+                
+                audioPlayer.src = song.getAttribute('data-src');
+                currentTitle.textContent = song.getAttribute('data-title');
+                currentArtist.textContent = song.getAttribute('data-artist');
+                currentCover.src = song.getAttribute('data-cover');
+                
+                // Update all song covers in playlist to match the one in data-cover
+                const songCover = song.querySelector('img');
+                if (songCover) {
+                    songCover.src = song.getAttribute('data-cover');
+                }
+                
+                audioPlayer.play()
+                    .then(() => {
+                        playBtn.innerHTML = '<i class="fas fa-pause text-xl"></i>';
+                        songs.forEach(s => s.classList.remove('playing', 'bg-blue-900'));
+                        song.classList.add('playing', 'bg-blue-900');
+                    })
+                    .catch(error => {
+                        console.log('Auto-play was prevented:', error);
+                    });
+            }
+            
+            // Play next song
+            function nextSong() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                loadSong(currentSongIndex);
+            }
+            
+            // Play previous song
+            function prevSong() {
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                loadSong(currentSongIndex);
+            }
+            
+            // Event listeners
+            playBtn.addEventListener('click', togglePlay);
+            prevBtn.addEventListener('click', prevSong);
+            nextBtn.addEventListener('click', nextSong);
+            progressBar.addEventListener('input', setProgress);
+            audioPlayer.addEventListener('timeupdate', updateProgress);
+            audioPlayer.addEventListener('ended', nextSong);
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                durationElement.textContent = formatTime(audioPlayer.duration);
+            });
+            
+            // Click on song in playlist
+            songs.forEach((song, index) => {
+                song.addEventListener('click', () => {
+                    loadSong(index);
+                });
+            });
+            
+            // Initialize with first song if available
+            if (songs.length > 0) {
+                loadSong(0);
+            }
+        });
+    </script>
+</body>
+</html>
+
