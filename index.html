@@ -2,554 +2,743 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pocafy - Your Music & Podcast Hub</title>
+    <title>Pocafy - Your Audio Universe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom CSS for animations and additional styling */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
-        }
-        
-        .wave-shape {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-        }
-        
-        .wave-shape svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 150px;
-        }
-        
-        .wave-shape .shape-fill {
-            fill: #FFFFFF;
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
         }
         
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
-        
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #1e293b;
         }
-        
         ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
+            background: #7c3aed;
+            border-radius: 4px;
         }
         
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <!-- Header with Navigation -->
-    <header class="gradient-bg text-white shadow-lg">
-        <div class="container mx-auto px-4 py-6">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-podcast text-3xl"></i>
-                    <h1 class="text-3xl font-bold">Pocafy</h1>
+<body class="bg-slate-900 text-white min-h-screen">
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div class="flex items-center mb-6 md:mb-0">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center mr-4 float-animation">
+                    <i class="fas fa-headphones text-xl"></i>
                 </div>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#music" class="hover:text-gray-200 transition">Music</a>
-                    <a href="#podcasts" class="hover:text-gray-200 transition">Podcasts</a>
-                    <a href="#about" class="hover:text-gray-200 transition">About</a>
-                </nav>
-                <button class="md:hidden text-2xl" id="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <h1 class="text-4xl font-bold gradient-text">Pocafy</h1>
             </div>
-            
-            <!-- Mobile Menu -->
-            <div class="md:hidden hidden mt-4" id="mobile-menu">
-                <div class="flex flex-col space-y-3">
-                    <a href="#music" class="hover:text-gray-200 transition">Music</a>
-                    <a href="#podcasts" class="hover:text-gray-200 transition">Podcasts</a>
-                    <a href="#about" class="hover:text-gray-200 transition">About</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Hero Section -->
-        <div class="container mx-auto px-4 py-16 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 fade-in">Your Audio Universe</h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto fade-in">Discover and enjoy your favorite music and podcasts in one place.</p>
             
             <!-- Search Bar -->
-            <div class="max-w-2xl mx-auto relative fade-in">
-                <input type="text" id="search-input" placeholder="Search for songs or podcasts..." class="w-full px-6 py-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-800">
-                <button id="search-btn" class="absolute right-2 top-2 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition">
+            <div class="relative w-full md:w-96">
+                <input type="text" id="searchInput" placeholder="Search songs, podcasts..." 
+                       class="w-full py-3 px-6 rounded-full bg-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-600 text-white placeholder-slate-400">
+                <button id="searchButton" class="absolute right-3 top-3 text-slate-400 hover:text-white">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-        </div>
+        </header>
         
-        <div class="wave-shape">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-            </svg>
+        <!-- Main Content -->
+        <main>
+            <!-- Navigation Tabs -->
+            <div class="flex mb-8 border-b border-slate-700">
+                <button data-tab="favorites" class="tab-btn py-3 px-6 font-medium text-lg hover:text-purple-400 transition-all border-b-2 border-transparent hover:border-purple-400 active-tab">Favorites</button>
+                <button data-tab="music" class="tab-btn py-3 px-6 font-medium text-lg hover:text-purple-400 transition-all border-b-2 border-transparent hover:border-purple-400">Music</button>
+                <button data-tab="podcast" class="tab-btn py-3 px-6 font-medium text-lg hover:text-purple-400 transition-all border-b-2 border-transparent hover:border-purple-400">Podcast</button>
+            </div>
+            
+            <!-- Tab Contents -->
+            <div id="tabContents">
+                <!-- Favorites Tab -->
+                <div id="favorites" class="tab-content active-tab-content">
+                    <h2 class="text-2xl font-bold mb-6 gradient-text">Your Favorites</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="favoritesContainer">
+                        <!-- Favorites will be populated here -->
+                        <div class="text-center py-10 glass rounded-xl">
+                            <i class="fas fa-heart text-4xl text-pink-500 mb-4"></i>
+                            <p class="text-slate-300">Your favorite tracks and podcasts will appear here</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Music Tab -->
+                <div id="music" class="tab-content hidden">
+                    <div class="flex mb-8">
+                        <button data-subtab="created" class="subtab-btn py-2 px-6 mr-4 font-medium rounded-full bg-slate-800 hover:bg-purple-600 transition-all active-subtab">CREATED BY TRACK</button>
+                        <button data-subtab="remix" class="subtab-btn py-2 px-6 font-medium rounded-full bg-slate-800 hover:bg-purple-600 transition-all">REMIX</button>
+                    </div>
+                    
+                    <div id="musicSubContents">
+                        <!-- Created by Track Subtab -->
+                        <div id="created" class="subtab-content active-subtab-content">
+                            <h2 class="text-2xl font-bold mb-6 gradient-text">CREATED BY TRACK</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="createdTracksContainer">
+                                <!-- Music tracks will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Remix Subtab -->
+                        <div id="remix" class="subtab-content hidden">
+                            <h2 class="text-2xl font-bold mb-6 gradient-text">REMIX</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="remixTracksContainer">
+                                <!-- Remix tracks will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Podcast Tab -->
+                <div id="podcast" class="tab-content hidden">
+                    <div class="flex mb-8">
+                        <button data-subtab="wissen" class="subtab-btn py-2 px-6 mr-4 font-medium rounded-full bg-slate-800 hover:bg-purple-600 transition-all active-subtab">WISSENS_TRACK</button>
+                        <button data-subtab="transfer" class="subtab-btn py-2 px-6 font-medium rounded-full bg-slate-800 hover:bg-purple-600 transition-all">TT (TRANSFERSTRACK)</button>
+                    </div>
+                    
+                    <div id="podcastSubContents">
+                        <!-- Wissen Track Subtab -->
+                        <div id="wissen" class="subtab-content active-subtab-content">
+                            <h2 class="text-2xl font-bold mb-6 gradient-text">WISSENS_TRACK</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="wissenPodcastsContainer">
+                                <!-- Wissen podcasts will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Transfer Track Subtab -->
+                        <div id="transfer" class="subtab-content hidden">
+                            <h2 class="text-2xl font-bold mb-6 gradient-text">TT (TRANSFERSTRACK)</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="transferPodcastsContainer">
+                                <!-- Transfer podcasts will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Results -->
+            <div id="searchResults" class="hidden mt-12">
+                <h2 class="text-2xl font-bold mb-6 gradient-text">Search Results</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="searchResultsContainer">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+        </main>
+        
+        <!-- Now Playing Bar -->
+        <div class="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 p-4 glass">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://via.placeholder.com/50" alt="Now Playing" class="w-12 h-12 rounded mr-4" id="nowPlayingImage">
+                    <div>
+                        <h3 class="font-medium" id="nowPlayingTitle">Not Playing</h3>
+                        <p class="text-sm text-slate-400" id="nowPlayingArtist">Select a track to play</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button class="mx-4 text-slate-400 hover:text-white">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center hover:bg-purple-700" id="playPauseBtn">
+                        <i class="fas fa-play" id="playPauseIcon"></i>
+                    </button>
+                    <button class="mx-4 text-slate-400 hover:text-white">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                <div class="hidden md:flex items-center w-1/3">
+                    <span class="text-xs text-slate-400 mr-2" id="currentTime">0:00</span>
+                    <div class="flex-1 bg-slate-700 rounded-full h-1">
+                        <div class="bg-purple-600 h-1 rounded-full" style="width: 0%" id="progressBar"></div>
+                    </div>
+                    <span class="text-xs text-slate-400 ml-2" id="duration">0:00</span>
+                </div>
+                <div class="flex items-center">
+                    <button class="mx-2 text-slate-400 hover:text-white">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button class="ml-4 text-slate-400 hover:text-white" id="favoriteBtn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-12">
-        <!-- Music Section -->
-        <section id="music" class="mb-20 fade-in">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">Music</h2>
-            </div>
-            
-            <!-- Music Tabs -->
-            <div class="mb-6">
-                <div class="flex border-b">
-                    <button class="music-tab active px-4 py-2 font-medium text-purple-600 border-b-2 border-purple-600" data-tab="remixed">REMIX</button>
-                    <button class="music-tab px-4 py-2 font-medium text-gray-500 hover:text-gray-700" data-tab="own">CREATED BY TRECK</button>
-                </div>
-            </div>
-            
-            <!-- Music Content -->
-            <div id="remixed-content" class="music-content active grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Remixed Songs - Add your entries here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="bild9.img" alt="Remix Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-purple-600 px-2 py-1 rounded">Remix</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">Last_Christmas (REMIX)</h3>
-                        <p class="text-gray-600 text-sm mb-3">DJ XEAROX</p>
-                        <audio controls class="w-full">
-                            <source src="Wham__Last_Christmas_REMIX.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="https://source.unsplash.com/random/400x400/?music,party" alt="Remix Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-purple-600 px-2 py-1 rounded">Remix</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">Night Fever Remix</h3>
-                        <p class="text-gray-600 text-sm mb-3">DJ Moonlight</p>
-                        <audio controls class="w-full">
-                            <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-                
-                <!-- Add more remixed songs here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="https://source.unsplash.com/random/400x400/?music,concert" alt="Remix Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-purple-600 px-2 py-1 rounded">Remix</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">Electric Dreams Remix</h3>
-                        <p class="text-gray-600 text-sm mb-3">DJ Neon</p>
-                        <audio controls class="w-full">
-                            <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="own-content" class="music-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Own Songs - Add your entries here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="https://source.unsplash.com/random/400x400/?music,studio" alt="Original Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-green-600 px-2 py-1 rounded">Original</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">My First Song</h3>
-                        <p class="text-gray-600 text-sm mb-3">Your Artist Name</p>
-                        <audio controls class="w-full">
-                            <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="https://source.unsplash.com/random/400x400/?music,guitar" alt="Original Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-green-600 px-2 py-1 rounded">Original</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">Acoustic Dreams</h3>
-                        <p class="text-gray-600 text-sm mb-3">Your Artist Name</p>
-                        <audio controls class="w-full">
-                            <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-                
-                <!-- Add more original songs here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="relative">
-                        <img src="https://source.unsplash.com/random/400x400/?music,piano" alt="Original Cover" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                            <span class="text-xs text-white bg-green-600 px-2 py-1 rounded">Original</span>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg mb-1">Midnight Melody</h3>
-                        <p class="text-gray-600 text-sm mb-3">Your Artist Name</p>
-                        <audio controls class="w-full">
-                            <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Podcasts Section -->
-        <section id="podcasts" class="mb-20 fade-in">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">Your Podcast Collection</h2>
-            </div>
-            
-            <!-- Podcast Tabs -->
-            <div class="mb-6">
-                <div class="flex border-b">
-                    <button class="podcast-tab active px-4 py-2 font-medium text-purple-600 border-b-2 border-purple-600" data-tab="tech">Tech Talk</button>
-                    <button class="podcast-tab px-4 py-2 font-medium text-gray-500 hover:text-gray-700" data-tab="story">Story Time</button>
-                </div>
-            </div>
-            
-            <!-- Podcast Content -->
-            <div id="tech-content" class="podcast-content active space-y-6">
-                <!-- Tech Podcasts - Add your entries here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?technology" alt="Tech Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded">Tech</span>
-                                <span class="text-xs text-gray-500 ml-2">45 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Future of AI</h3>
-                            <p class="text-gray-600 mb-4">Exploring the latest advancements in artificial intelligence and what it means for our future.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?coding" alt="Tech Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded">Tech</span>
-                                <span class="text-xs text-gray-500 ml-2">32 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">Web Development Trends 2023</h3>
-                            <p class="text-gray-600 mb-4">Discussion about the latest trends in web development and what technologies to learn.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Add more tech podcasts here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?computer" alt="Tech Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-blue-600 px-2 py-1 rounded">Tech</span>
-                                <span class="text-xs text-gray-500 ml-2">28 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">Cybersecurity Basics</h3>
-                            <p class="text-gray-600 mb-4">Essential cybersecurity practices everyone should know in the digital age.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="story-content" class="podcast-content hidden space-y-6">
-                <!-- Story Podcasts - Add your entries here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?fantasy" alt="Story Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-yellow-600 px-2 py-1 rounded">Story</span>
-                                <span class="text-xs text-gray-500 ml-2">28 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Lost Kingdom</h3>
-                            <p class="text-gray-600 mb-4">A thrilling adventure story about explorers discovering an ancient civilization.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?mystery" alt="Story Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-yellow-600 px-2 py-1 rounded">Story</span>
-                                <span class="text-xs text-gray-500 ml-2">37 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Midnight Train</h3>
-                            <p class="text-gray-600 mb-4">A mysterious story about passengers on a train that shouldn't exist.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Add more story podcasts here -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover transition duration-300">
-                    <div class="md:flex">
-                        <div class="md:flex-shrink-0">
-                            <img class="h-full w-full md:w-48 object-cover" src="https://source.unsplash.com/random/400x400/?adventure" alt="Story Podcast Cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="text-xs text-white bg-yellow-600 px-2 py-1 rounded">Story</span>
-                                <span class="text-xs text-gray-500 ml-2">42 min</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Forgotten Island</h3>
-                            <p class="text-gray-600 mb-4">A group of friends discover an uncharted island with strange secrets.</p>
-                            <audio controls class="w-full">
-                                <source src="path-to-your-audio-file.mp3" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- About Section -->
-        <section id="about" class="bg-white rounded-xl shadow-md p-8 mb-12 fade-in">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">About Pocafy</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-xl font-semibold mb-3">Your Personal Audio Hub</h3>
-                    <p class="text-gray-600 mb-4">Pocafy is designed to be your one-stop destination for all your audio content. Whether you're a music creator, podcast host, or just someone who loves to organize their audio collection, Pocafy makes it easy to manage and enjoy your content.</p>
-                    <p class="text-gray-600">With intuitive categorization, powerful search, and a beautiful interface, Pocafy brings your audio universe to life.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-3">How It Works</h3>
-                    <ul class="space-y-3 text-gray-600">
-                        <li class="flex items-start">
-                            <i class="fas fa-music text-purple-500 mt-1 mr-3"></i>
-                            <span>Browse through your music collection organized by categories</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-podcast text-purple-500 mt-1 mr-3"></i>
-                            <span>Enjoy your podcasts organized by different topics</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-search text-purple-500 mt-1 mr-3"></i>
-                            <span>Quickly find what you're looking for with our powerful search</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-headphones text-purple-500 mt-1 mr-3"></i>
-                            <span>Enjoy your content with our built-in audio player</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Feedback Button -->
-        <div class="text-center mb-12 fade-in">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe96idCVyKU9XoRtDbVuUxnK7MLJkJ03ozaSBM_Jmj5w5oerQ/viewform?usp=dialog" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition shadow-lg">
-                <i class="fas fa-comment-alt mr-2"></i> Give Us Feedback
-            </a>
-        </div>
-    </main>
-    
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <i class="fas fa-podcast text-2xl"></i>
-                    <h2 class="text-2xl font-bold">Pocafy</h2>
-                </div>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:text-purple-400 transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-purple-400 transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="hover:text-purple-400 transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-purple-400 transition"><i class="fab fa-spotify"></i></a>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-6 pt-6 text-center md:text-left">
-                <p>&copy; 2023 Pocafy. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+    <!-- ============================================ -->
+    <!-- DATA SECTION - Add your content here -->
+    <!-- ============================================ -->
     <script>
-        // Mobile Menu Toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-        
-        // Music Tabs
-        const musicTabs = document.querySelectorAll('.music-tab');
-        musicTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                // Remove active class from all tabs
-                musicTabs.forEach(t => t.classList.remove('active', 'text-purple-600', 'border-purple-600'));
-                musicTabs.forEach(t => t.classList.add('text-gray-500', 'hover:text-gray-700'));
-                
-                // Add active class to clicked tab
-                this.classList.add('active', 'text-purple-600', 'border-purple-600');
-                this.classList.remove('text-gray-500', 'hover:text-gray-700');
-                
-                // Hide all content
-                document.querySelectorAll('.music-content').forEach(content => {
-                    content.classList.add('hidden');
-                    content.classList.remove('active');
+        // Sample data - replace with your actual content
+        const musicData = {
+            created: [
+                {
+                    id: 'm1',
+                    title: 'Midnight Dreams',
+                    artist: 'Luna Sky',
+                    cover: 'https://via.placeholder.com/300/8b5cf6/ffffff?text=Midnight+Dreams',
+                    duration: '3:45',
+                    audio: 'https://example.com/audio1.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 'm2',
+                    title: 'Electric Sunrise',
+                    artist: 'Neon Waves',
+                    cover: 'https://via.placeholder.com/300/ec4899/ffffff?text=Electric+Sunrise',
+                    duration: '4:12',
+                    audio: 'https://example.com/audio2.mp3',
+                    isFavorite: true
+                },
+                {
+                    id: 'm3',
+                    title: 'Ocean Breeze',
+                    artist: 'Aqua Beats',
+                    cover: 'https://via.placeholder.com/300/3b82f6/ffffff?text=Ocean+Breeze',
+                    duration: '3:28',
+                    audio: 'https://example.com/audio3.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 'm4',
+                    title: 'Starry Night',
+                    artist: 'Cosmic Sound',
+                    cover: 'https://via.placeholder.com/300/10b981/ffffff?text=Starry+Night',
+                    duration: '5:01',
+                    audio: 'https://example.com/audio4.mp3',
+                    isFavorite: false
+                }
+            ],
+            remix: [
+                {
+                    id: 'r1',
+                    title: 'Dusk Till Dawn (Remix)',
+                    artist: 'Zara Larsson ft. Sia',
+                    cover: 'https://via.placeholder.com/300/f59e0b/ffffff?text=Dusk+Till+Dawn',
+                    duration: '3:59',
+                    audio: 'https://example.com/remix1.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 'r2',
+                    title: 'Blinding Lights (Synthwave Remix)',
+                    artist: 'The Weeknd',
+                    cover: 'https://via.placeholder.com/300/ef4444/ffffff?text=Blinding+Lights',
+                    duration: '4:22',
+                    audio: 'https://example.com/remix2.mp3',
+                    isFavorite: true
+                },
+                {
+                    id: 'r3',
+                    title: 'Levitating (Future Funk Remix)',
+                    artist: 'Dua Lipa',
+                    cover: 'https://via.placeholder.com/300/8b5cf6/ffffff?text=Levitating',
+                    duration: '3:45',
+                    audio: 'https://example.com/remix3.mp3',
+                    isFavorite: false
+                }
+            ]
+        };
+
+        const podcastData = {
+            wissen: [
+                {
+                    id: 'w1',
+                    title: 'The Science of Sleep',
+                    host: 'Dr. Rebecca Miller',
+                    cover: 'https://via.placeholder.com/300/10b981/ffffff?text=Sleep+Science',
+                    duration: '42:15',
+                    audio: 'https://example.com/podcast1.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 'w2',
+                    title: 'AI Revolution',
+                    host: 'Tech Insights',
+                    cover: 'https://via.placeholder.com/300/3b82f6/ffffff?text=AI+Revolution',
+                    duration: '38:42',
+                    audio: 'https://example.com/podcast2.mp3',
+                    isFavorite: true
+                },
+                {
+                    id: 'w3',
+                    title: 'Quantum Physics Explained',
+                    host: 'Science Today',
+                    cover: 'https://via.placeholder.com/300/8b5cf6/ffffff?text=Quantum',
+                    duration: '51:30',
+                    audio: 'https://example.com/podcast3.mp3',
+                    isFavorite: false
+                }
+            ],
+            transfer: [
+                {
+                    id: 't1',
+                    title: 'Financial Freedom',
+                    host: 'Money Masters',
+                    cover: 'https://via.placeholder.com/300/f59e0b/ffffff?text=Finance',
+                    duration: '35:18',
+                    audio: 'https://example.com/transfer1.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 't2',
+                    title: 'Mindful Productivity',
+                    host: 'Life Hacks',
+                    cover: 'https://via.placeholder.com/300/ec4899/ffffff?text=Productivity',
+                    duration: '28:55',
+                    audio: 'https://example.com/transfer2.mp3',
+                    isFavorite: true
+                },
+                {
+                    id: 't3',
+                    title: 'The Art of Negotiation',
+                    host: 'Business Skills',
+                    cover: 'https://via.placeholder.com/300/ef4444/ffffff?text=Negotiation',
+                    duration: '45:10',
+                    audio: 'https://example.com/transfer3.mp3',
+                    isFavorite: false
+                },
+                {
+                    id: 't4',
+                    title: 'Digital Nomad Lifestyle',
+                    host: 'Remote Work',
+                    cover: 'https://via.placeholder.com/300/3b82f6/ffffff?text=Nomad',
+                    duration: '39:22',
+                    audio: 'https://example.com/transfer4.mp3',
+                    isFavorite: false
+                }
+            ]
+        };
+        // ============================================
+        // END OF DATA SECTION
+        // ============================================
+
+        // DOM Elements
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const subtabBtns = document.querySelectorAll('.subtab-btn');
+        const subtabContents = document.querySelectorAll('.subtab-content');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsContainer = document.getElementById('searchResultsContainer');
+        const favoritesContainer = document.getElementById('favoritesContainer');
+        const createdTracksContainer = document.getElementById('createdTracksContainer');
+        const remixTracksContainer = document.getElementById('remixTracksContainer');
+        const wissenPodcastsContainer = document.getElementById('wissenPodcastsContainer');
+        const transferPodcastsContainer = document.getElementById('transferPodcastsContainer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playPauseIcon = document.getElementById('playPauseIcon');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+        const nowPlayingArtist = document.getElementById('nowPlayingArtist');
+        const nowPlayingImage = document.getElementById('nowPlayingImage');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const progressBar = document.getElementById('progressBar');
+
+        // Audio element
+        const audio = new Audio();
+        let currentTrack = null;
+        let isPlaying = false;
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        // Initialize the app
+        function init() {
+            renderCreatedTracks();
+            renderRemixTracks();
+            renderWissenPodcasts();
+            renderTransferPodcasts();
+            renderFavorites();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Tab navigation
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    switchTab(tabId);
                 });
-                
-                // Show selected content
-                const tabId = this.getAttribute('data-tab') + '-content';
-                document.getElementById(tabId).classList.remove('hidden');
-                document.getElementById(tabId).classList.add('active');
             });
-        });
-        
-        // Podcast Tabs
-        const podcastTabs = document.querySelectorAll('.podcast-tab');
-        podcastTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                // Remove active class from all tabs
-                podcastTabs.forEach(t => t.classList.remove('active', 'text-purple-600', 'border-purple-600'));
-                podcastTabs.forEach(t => t.classList.add('text-gray-500', 'hover:text-gray-700'));
-                
-                // Add active class to clicked tab
-                this.classList.add('active', 'text-purple-600', 'border-purple-600');
-                this.classList.remove('text-gray-500', 'hover:text-gray-700');
-                
-                // Hide all content
-                document.querySelectorAll('.podcast-content').forEach(content => {
-                    content.classList.add('hidden');
-                    content.classList.remove('active');
+            
+            // Subtab navigation
+            subtabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const subtabId = btn.getAttribute('data-subtab');
+                    const parentTab = btn.closest('.tab-content').id;
+                    switchSubtab(subtabId, parentTab);
                 });
-                
-                // Show selected content
-                const tabId = this.getAttribute('data-tab') + '-content';
-                document.getElementById(tabId).classList.remove('hidden');
-                document.getElementById(tabId).classList.add('active');
             });
-        });
-        
-        // Search Functionality (simulated)
-        document.getElementById('search-btn').addEventListener('click', function() {
-            const query = document.getElementById('search-input').value.trim();
-            if (query) {
-                alert(`Searching for: ${query}\n(Search functionality would be implemented in a real application)`);
+            
+            // Search functionality
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Play/Pause button
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            
+            // Favorite button
+            favoriteBtn.addEventListener('click', toggleFavorite);
+            
+            // Audio events
+            audio.addEventListener('timeupdate', updateProgressBar);
+            audio.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(audio.duration);
+            });
+            audio.addEventListener('ended', () => {
+                playPauseIcon.className = 'fas fa-play';
+                isPlaying = false;
+            });
+        }
+
+        // Switch between main tabs
+        function switchTab(tabId) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('active-tab-content');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(tabId).classList.add('active-tab-content');
+            
+            // Update active tab button
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active-tab');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active-tab');
+                }
+            });
+            
+            // Hide search results when switching tabs
+            searchResults.classList.add('hidden');
+        }
+
+        // Switch between subtabs
+        function switchSubtab(subtabId, parentTab) {
+            // Hide all subtab contents within the parent tab
+            document.querySelectorAll(`#${parentTab} .subtab-content`).forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('active-subtab-content');
+            });
+            
+            // Show selected subtab content
+            document.getElementById(subtabId).classList.remove('hidden');
+            document.getElementById(subtabId).classList.add('active-subtab-content');
+            
+            // Update active subtab button
+            document.querySelectorAll(`#${parentTab} .subtab-btn`).forEach(btn => {
+                btn.classList.remove('active-subtab');
+                if (btn.getAttribute('data-subtab') === subtabId) {
+                    btn.classList.add('active-subtab');
+                }
+            });
+        }
+
+        // Render created tracks
+        function renderCreatedTracks() {
+            createdTracksContainer.innerHTML = '';
+            musicData.created.forEach(track => {
+                const trackElement = createTrackElement(track, 'music');
+                createdTracksContainer.appendChild(trackElement);
+            });
+        }
+
+        // Render remix tracks
+        function renderRemixTracks() {
+            remixTracksContainer.innerHTML = '';
+            musicData.remix.forEach(track => {
+                const trackElement = createTrackElement(track, 'music');
+                remixTracksContainer.appendChild(trackElement);
+            });
+        }
+
+        // Render wissen podcasts
+        function renderWissenPodcasts() {
+            wissenPodcastsContainer.innerHTML = '';
+            podcastData.wissen.forEach(podcast => {
+                const podcastElement = createTrackElement(podcast, 'podcast');
+                wissenPodcastsContainer.appendChild(podcastElement);
+            });
+        }
+
+        // Render transfer podcasts
+        function renderTransferPodcasts() {
+            transferPodcastsContainer.innerHTML = '';
+            podcastData.transfer.forEach(podcast => {
+                const podcastElement = createTrackElement(podcast, 'podcast');
+                transferPodcastsContainer.appendChild(podcastElement);
+            });
+        }
+
+        // Create a track/podcast element
+        function createTrackElement(item, type) {
+            const isFav = favorites.some(fav => fav.id === item.id);
+            
+            const element = document.createElement('div');
+            element.className = 'bg-slate-800 rounded-xl overflow-hidden hover:bg-slate-700 transition-all cursor-pointer group glass';
+            element.setAttribute('data-id', item.id);
+            element.setAttribute('data-type', type);
+            
+            element.innerHTML = `
+                <div class="relative">
+                    <img src="${item.cover}" alt="${item.title}" class="w-full h-48 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                        <button class="play-btn w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center hover:bg-purple-700">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium truncate">${item.title}</h3>
+                    <p class="text-sm text-slate-400 truncate">${type === 'music' ? item.artist : item.host}</p>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-xs text-slate-500">${item.duration}</span>
+                        <button class="favorite-btn text-${isFav ? 'pink-500' : 'slate-500'} hover:text-pink-500">
+                            <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners to the element
+            element.querySelector('.play-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                playTrack(item, type);
+            });
+            
+            element.querySelector('.favorite-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavoriteItem(item, type);
+                renderFavorites();
+            });
+            
+            element.addEventListener('click', () => {
+                playTrack(item, type);
+            });
+            
+            return element;
+        }
+
+        // Play a track or podcast
+        function playTrack(item, type) {
+            currentTrack = { ...item, type };
+            
+            // Update now playing info
+            nowPlayingTitle.textContent = item.title;
+            nowPlayingArtist.textContent = type === 'music' ? item.artist : item.host;
+            nowPlayingImage.src = item.cover;
+            
+            // Set audio source
+            audio.src = item.audio;
+            audio.load();
+            
+            // Play the audio
+            audio.play()
+                .then(() => {
+                    isPlaying = true;
+                    playPauseIcon.className = 'fas fa-pause';
+                })
+                .catch(error => {
+                    console.error('Error playing audio:', error);
+                });
+            
+            // Update favorite button state
+            const isFav = favorites.some(fav => fav.id === item.id);
+            favoriteBtn.innerHTML = isFav ? '<i class="fas fa-heart text-pink-500"></i>' : '<i class="far fa-heart"></i>';
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            if (currentTrack) {
+                if (isPlaying) {
+                    audio.pause();
+                    playPauseIcon.className = 'fas fa-play';
+                } else {
+                    audio.play();
+                    playPauseIcon.className = 'fas fa-pause';
+                }
+                isPlaying = !isPlaying;
             }
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            if (audio.duration) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        }
+
+        // Format time (seconds to MM:SS)
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Toggle favorite for current track
+        function toggleFavorite() {
+            if (currentTrack) {
+                toggleFavoriteItem(currentTrack, currentTrack.type);
+                renderFavorites();
+            }
+        }
+
+        // Toggle favorite for a specific item
+        function toggleFavoriteItem(item, type) {
+            const index = favorites.findIndex(fav => fav.id === item.id);
+            
+            if (index === -1) {
+                // Add to favorites
+                favorites.push({ ...item, type });
                 
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                // Update favorite button in now playing bar
+                if (currentTrack && currentTrack.id === item.id) {
+                    favoriteBtn.innerHTML = '<i class="fas fa-heart text-pink-500"></i>';
+                }
+            } else {
+                // Remove from favorites
+                favorites.splice(index, 1);
                 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                // Update favorite button in now playing bar
+                if (currentTrack && currentTrack.id === item.id) {
+                    favoriteBtn.innerHTML = '<i class="far fa-heart"></i>';
                 }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            
+            // Update all favorite buttons in the UI
+            updateFavoriteButtons(item.id);
+        }
+
+        // Update favorite buttons across the UI
+        function updateFavoriteButtons(id) {
+            const isFav = favorites.some(fav => fav.id === id);
+            
+            // Update in now playing bar if it's the current track
+            if (currentTrack && currentTrack.id === id) {
+                favoriteBtn.innerHTML = isFav ? '<i class="fas fa-heart text-pink-500"></i>' : '<i class="far fa-heart"></i>';
+            }
+            
+            // Update in all track/podcast elements
+            document.querySelectorAll(`[data-id="${id}"] .favorite-btn`).forEach(btn => {
+                btn.innerHTML = isFav ? '<i class="fas fa-heart text-pink-500"></i>' : '<i class="far fa-heart"></i>';
             });
-        });
-        
-        // Animation on scroll
-        const fadeElements = document.querySelectorAll('.fade-in');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        }
+
+        // Render favorites
+        function renderFavorites() {
+            favoritesContainer.innerHTML = '';
+            
+            if (favorites.length === 0) {
+                favoritesContainer.innerHTML = `
+                    <div class="text-center py-10 glass rounded-xl">
+                        <i class="fas fa-heart text-4xl text-pink-500 mb-4"></i>
+                        <p class="text-slate-300">Your favorite tracks and podcasts will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            favorites.forEach(item => {
+                const element = createTrackElement(item, item.type);
+                favoritesContainer.appendChild(element);
             });
-        }, {
-            threshold: 0.1
-        });
-        
-        fadeElements.forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            observer.observe(el);
-        });
+        }
+
+        // Perform search
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (query === '') {
+                searchResults.classList.add('hidden');
+                return;
+            }
+            
+            // Combine all tracks and podcasts
+            const allItems = [
+                ...musicData.created.map(item => ({ ...item, type: 'music', category: 'created' })),
+                ...musicData.remix.map(item => ({ ...item, type: 'music', category: 'remix' })),
+                ...podcastData.wissen.map(item => ({ ...item, type: 'podcast', category: 'wissen' })),
+                ...podcastData.transfer.map(item => ({ ...item, type: 'podcast', category: 'transfer' }))
+            ];
+            
+            // Filter items that match the query
+            const results = allItems.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                (item.artist && item.artist.toLowerCase().includes(query)) ||
+                (item.host && item.host.toLowerCase().includes(query))
+            );
+            
+            // Display results
+            displaySearchResults(results);
+        }
+
+        // Display search results
+        function displaySearchResults(results) {
+            searchResultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                searchResultsContainer.innerHTML = `
+                    <div class="col-span-full text-center py-10 glass rounded-xl">
+                        <i class="fas fa-search text-4xl text-slate-500 mb-4"></i>
+                        <p class="text-slate-300">No results found</p>
+                    </div>
+                `;
+            } else {
+                results.forEach(item => {
+                    const element = createTrackElement(item, item.type);
+                    searchResultsContainer.appendChild(element);
+                });
+            }
+            
+            // Show search results and hide other content
+            searchResults.classList.remove('hidden');
+            tabContents.forEach(content => content.classList.add('hidden'));
+            tabBtns.forEach(btn => btn.classList.remove('active-tab'));
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
